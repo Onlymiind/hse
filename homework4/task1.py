@@ -7,16 +7,16 @@ def search(collection, predicate):
 def find_owner(documents, doc_number):
     doc = search(documents, lambda val: True if val['number'] == doc_number else False)
     if doc != None:
-        return 'Владелец документа: ' + doc['name']
+        return doc['name']
     else:
-       return 'Документ не найден'
+       return 'владелец не найден'
 
 def find_directory(directories, doc_number):
     directory = search(directories, lambda dir: search(directories[dir], lambda num: True if num == doc_number else False) != None)
     if directory != None:
-        return 'Документ хранится на полке: ' + directory
+        return directory
     else:
-        return 'Документ не найден'
+        return 'документ не найден'
 
 def read_command():
     return input('Введите команду:\n')
@@ -28,9 +28,9 @@ def main_loop():
     command = read_command()
     while command != 'q':
         if command == 'p':
-            print(find_owner(documents, read_document_number()))
+            print('Владелец документа: ' + find_owner(documents, read_document_number()))
         elif command == 's':
-            print(find_directory(directories, read_document_number()))
+            print('Документ хранится на полке: ' + find_directory(directories, read_document_number()))
         else:
             print('Неизвестная команда!\n')
         command = read_command()
