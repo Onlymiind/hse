@@ -16,7 +16,7 @@ def find_directory(directories, doc_number):
     if directory != None:
         return directory
     else:
-        return 'документ не найден'
+        return 'дt aокумент не найден'
 
 def read_command():
     return input('Введите команду:\n')
