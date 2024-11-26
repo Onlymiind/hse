@@ -18,7 +18,6 @@ date = get_date_str()
 while date != None:
     success = False
     for fmt in formats:
-        print(fmt)
         parsed = parse_date(date, fmt)
         if parsed != None:
             success = True
