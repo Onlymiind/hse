@@ -6,9 +6,8 @@ for line in file:
         out.write(line)
         first = False
         continue
-    # only third column matters, so don't bother splitting the entire line
+    # only the third column matters, so don't bother splitting the entire line
     values = line.split(",", 3)
-    print(values)
     if len(values) >= 3 and values[2] != "":
         out.write(line)
 file.close()
