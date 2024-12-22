@@ -87,7 +87,10 @@ class Handler(BaseHTTPRequestHandler):
     def __init__(self, tasks, filepath, *args):
         self.tasks = tasks
         self.filepath = filepath
-        self.current_id = max(tasks.keys())
+        if not tasks:
+            self.current_id = 0
+        else:
+            self.current_id = max(tasks.keys())
         BaseHTTPRequestHandler.__init__(self, *args)
 
     def do_GET(self):
