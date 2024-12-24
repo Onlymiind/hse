@@ -7,7 +7,7 @@ import json
 import sys
 
 class Handler(BaseHTTPRequestHandler):
-    def __init__(self, *args):
+    def __init__(self, auth_key, *args):
         self.html_template = """
         <html>
             <head>
@@ -31,7 +31,7 @@ class Handler(BaseHTTPRequestHandler):
         self.disk_url = "https://cloud-api.yandex.net/v1/disk/resources?path={path}&fields=_embedded.items.name,_embedded.limit&sort=name&offset={offset}"
         self.upload_url = "https://cloud-api.yandex.net/v1/disk/resources/upload?path={path}"
         self.disk_folder = "Backup"
-        self.disk_auth_header = {"Authorization": f"OAuth {sys.argv[1]}"}
+        self.disk_auth_header = {"Authorization": f"OAuth {auth_key}"}
         BaseHTTPRequestHandler.__init__(self, *args)
 
     def get_file_list_chunk(self, offset):
@@ -80,10 +80,10 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
 
 def run():
-    if len(sys.argv) < 2:
-        print("Expected 1 argument with Yandex Disk auth token")
-        return
-    httpd = HTTPServer(('', 8080), Handler)
+    auth_key = input('Enter Yandex Disk auth key:\n')
+    def make_handler(*args):
+        return Handler(auth_key, *args)
+    httpd = HTTPServer(('', 8080), make_handler)
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
